@@ -159,27 +159,13 @@ public class TreeImpl<E> implements Tree<E> {
     }
 
     /**
-     * Valida o tipo, a árvore de origem e o estado da posição.
+     * Valida e converte uma posição recebida pelas operações da árvore.
+     *
+     * TODO A2.2: completar progressivamente a partir dos testes de validação.
      */
     private TreeNode checkPosition(Position<E> position)
             throws InvalidPositionException {
-        if (position == null) {
-            throw new InvalidPositionException("A posição não pode ser null.");
-        }
-
-        final TreeNode node;
-        try {
-            node = (TreeNode) position;
-        } catch (ClassCastException exception) {
-            throw new InvalidPositionException(
-                    "A posição não foi criada por uma TreeImpl compatível.");
-        }
-
-        if (node.owner != this || !node.valid) {
-            throw new InvalidPositionException(
-                    "A posição não pertence a esta árvore ou já foi removida.");
-        }
-        return node;
+        return (TreeNode) position;
     }
 
     @Override

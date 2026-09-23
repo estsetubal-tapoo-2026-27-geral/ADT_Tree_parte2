@@ -55,12 +55,24 @@ class TreeImplTest {
                 () -> tree.parent(computer));
     }
 
+    @Disabled("Etapa 1 de checkPosition: retirar para testar uma posição null")
     @Test
     void nullPositionIsRejected() {
         assertThrows(InvalidPositionException.class,
                 () -> tree.children(null));
     }
 
+    @Disabled("Etapa 2 de checkPosition: retirar depois de concluir a etapa 1")
+    @Test
+    void positionFromAnotherImplementationIsRejected() {
+        Position<FileSystemItem> externalPosition =
+                () -> folder("Externa");
+
+        assertThrows(InvalidPositionException.class,
+                () -> tree.children(externalPosition));
+    }
+
+    @Disabled("Etapa 3 de checkPosition: retirar depois de concluir a etapa 2")
     @Test
     void positionFromAnotherTreeIsRejected() {
         Tree<FileSystemItem> otherTree = new TreeImpl<>();
@@ -70,18 +82,6 @@ class TreeImplTest {
                 () -> tree.children(otherRoot));
     }
 
-    @Test
-    void elementsFollowPreOrder() {
-        List<String> names = new ArrayList<>();
-        for (FileSystemItem item : tree.elements()) {
-            names.add(item.getName());
-        }
-
-        assertEquals(List.of("Computador", "Documentos", "aulas.pdf",
-                "notas.txt", "Imagens", "ferias.jpg"), names);
-    }
-
-    // Retire @Disabled à medida que implementar cada operação.
 
     @Disabled("Completar depois de implementar size")
     @Test
@@ -104,15 +104,7 @@ class TreeImplTest {
         assertTrue(tree.isExternal(holidaysJpg));
     }
 
-    @Disabled("Completar depois de implementar positions")
-    @Test
-    void positionsFollowPreOrder() {
-        List<Position<FileSystemItem>> positions = new ArrayList<>();
-        tree.positions().forEach(positions::add);
 
-        assertEquals(List.of(computer, documents, classesPdf, notesTxt,
-                images, holidaysJpg), positions);
-    }
 
     @Disabled("Completar depois de implementar remove")
     @Test
@@ -124,6 +116,40 @@ class TreeImplTest {
         assertEquals(3, tree.size());
     }
 
-    // TODO A2.2: acrescente testes para inserção ordenada, replace,
-    // remoção da raiz, posição removida e índices inválidos.
+    // TODO A2.2: complete os cinco testes seguintes e retire @Disabled.
+
+    @Disabled("TODO A2.2: completar o teste de inserção ordenada")
+    @Test
+    void insertWithOrderAddsChildAtSpecifiedPosition() {
+        // TODO A2.2: preparar os dados, executar a inserção e verificar
+        // a posição do novo filho.
+    }
+
+    @Disabled("TODO A2.2: completar o teste de replace")
+    @Test
+    void replaceChangesElementAndReturnsPreviousElement() {
+        // TODO A2.2: substituir um elemento e verificar o valor devolvido
+        // e o novo elemento armazenado na posição.
+    }
+
+    @Disabled("TODO A2.2: completar o teste de remoção da raiz")
+    @Test
+    void removingRootEmptiesTreeAndInvalidatesAllPositions() {
+        // TODO A2.2: remover a raiz e verificar o estado da árvore e das
+        // posições que pertenciam à subárvore removida.
+    }
+
+    @Disabled("TODO A2.2: completar o teste de utilização de posição removida")
+    @Test
+    void operationWithRemovedPositionThrowsInvalidPositionException() {
+        // TODO A2.2: remover uma posição e tentar utilizá-la numa operação
+        // da árvore.
+    }
+
+    @Disabled("TODO A2.2: completar o teste de índice inválido")
+    @Test
+    void insertWithInvalidOrderThrowsBoundaryViolationException() {
+        // TODO A2.2: testar um índice que não seja válido para a lista de
+        // filhos da posição-pai.
+    }
 }

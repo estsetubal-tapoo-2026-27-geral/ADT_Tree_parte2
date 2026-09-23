@@ -10,6 +10,8 @@ No final da atividade deverá ser capaz de:
 - explicar por que motivo uma árvore deve receber e devolver posições;
 - integrar `Position<E>` na interface `Tree<E>`;
 - compreender uma implementação baseada em nós ligados;
+- discutir o contrato do método `checkPosition`;
+- demonstrar por que uma posição de outra árvore deve ser rejeitada;
 - preservar as invariantes da árvore nas operações modificadoras;
 - planear e escrever testes unitários a partir do contrato do ADT;
 - validar a implementação com um exemplo de sistema de ficheiros.
@@ -78,18 +80,71 @@ A implementação deve garantir que:
 - uma posição removida deixa de poder ser utilizada;
 - `size()` coincide com o número de posições válidas.
 
-## 3. Planear os testes
+## 3. Construir `checkPosition` por experiência e erro
 
-Antes de implementar, complete a tabela:
+O método começa apenas com o cast:
 
-| Operação | Estado inicial | Ação | Resultado esperado |
-|---|---|---|---|
-| `isEmpty` | árvore vazia | consultar | `true` |
-| `insert` | árvore vazia | inserir `Computador` com pai `null` | devolve a raiz |
-| `parent` | `aulas.pdf` sob `Documentos` | consultar o pai | posição de `Documentos` |
-|  |  |  |  |
+```java
+private TreeNode checkPosition(Position<E> position) {
+    return (TreeNode) position;
+}
+```
 
-Inclua casos normais, casos-limite e casos inválidos: árvore vazia, raiz, folhas, nós internos, posição `null`, posição de outra árvore, posição removida e índices de inserção inválidos.
+Os testes das três primeiras experiências estão inicialmente anotados com
+`@Disabled`. Retire essa anotação **apenas a um teste de cada vez**. Em cada
+etapa, antecipe o resultado, execute o teste, interprete a falha e acrescente a
+`checkPosition` somente a validação necessária.
+
+### Experiência 1 — posição `null`
+
+Ative `nullPositionIsRejected`.
+
+1. É possível fazer cast de `null` para `TreeNode`?
+2. Que valor resulta desse cast?
+3. Onde ocorre o erro quando `children` tenta utilizar esse valor?
+4. A exceção obtida é a exceção definida pelo contrato do ADT?
+
+Não altere o teste. Modifique `checkPosition` até ser lançada
+`InvalidPositionException`.
+
+### Experiência 2 — uma `Position` que não é um `TreeNode`
+
+Ative `positionFromAnotherImplementationIsRejected`. O teste fornece um objeto
+que implementa `Position<E>`, mas que não foi criado por `TreeImpl`.
+
+1. O parâmetro respeita o tipo declarado pela interface?
+2. O cast para `TreeNode` funciona?
+3. Que exceção é observada?
+4. Essa exceção deve ser exposta ao cliente do ADT?
+
+Melhore `checkPosition` para traduzir esta situação numa
+`InvalidPositionException`, preservando a validação da etapa anterior.
+
+### Experiência 3 — um `TreeNode` pertencente a outra árvore
+
+Ative `positionFromAnotherTreeIsRejected`. São agora construídas duas árvores e
+é passada à primeira árvore a raiz da segunda.
+
+1. O cast funciona desta vez? Porquê?
+2. Ser uma instância de `TreeNode` é suficiente para a posição ser válida?
+3. O que aconteceria ao executar
+   `tree.insert(otherRoot, file("intruso.txt"))`?
+4. Como pode um nó registar qual foi a instância de `TreeImpl` que o criou?
+5. Como se compara a identidade de duas árvores?
+
+Acrescente a validação descoberta e confirme que os três testes passam.
+
+### Experiência 4 — uma posição removida
+
+Esta etapa é realizada depois de implementar `remove`. Ative ou escreva um
+teste que remova um nó e tente depois utilizá-lo em `children`.
+
+1. O tipo da posição está correto?
+2. A posição pertence à árvore atual?
+3. Como pode a implementação distinguir um nó atual de um nó removido?
+
+Complete `checkPosition` e, apenas no final, formule por palavras todas as suas
+responsabilidades.
 
 ## 4. Completar a implementação
 
@@ -115,21 +170,31 @@ Neste projeto, `remove(position)` remove a subárvore cuja raiz é a posição r
 - devolver o elemento que estava na posição recebida;
 - garantir que o novo resultado de `size()` está correto.
 
-## 6. Completar os testes
+## 5. Completar cinco testes
 
-A classe `TreeImplTest` fornece a árvore de teste e alguns exemplos. Acrescente testes para:
+A classe `TreeImplTest` fornece os restantes testes já implementados. Complete
+apenas os cinco métodos assinalados com `TODO A2.2`:
 
-- `insert(parent, element, order)` com índices válidos e inválidos;
-- `replace` e respetivo valor devolvido;
-- remoção de uma folha;
-- remoção de um nó interno;
-- remoção da raiz;
-- utilização de qualquer posição removida;
-- sequência completa de `positions()` e `elements()`.
+1. `insertWithOrderAddsChildAtSpecifiedPosition` — inserção de um filho numa
+   posição específica;
+2. `replaceChangesElementAndReturnsPreviousElement` — substituição do elemento
+   e verificação do valor devolvido;
+3. `removingRootEmptiesTreeAndInvalidatesAllPositions` — remoção da raiz segundo
+   a política de remoção de uma subárvore;
+4. `operationWithRemovedPositionThrowsInvalidPositionException` — utilização
+   de uma posição depois de removida;
+5. `insertWithInvalidOrderThrowsBoundaryViolationException` — inserção com um
+   índice inválido.
 
-Um teste deve explicitar o estado inicial, a operação realizada e o resultado esperado. Utilize `assertThrows` para validar exceções.
+Em cada teste:
 
-## 7. Atualizar o `Main`
+1. prepare o estado inicial;
+2. execute a operação;
+3. verifique o resultado e as alterações na árvore;
+4. utilize `assertThrows` quando se espera uma exceção;
+5. retire `@Disabled` quando o teste estiver completo.
+
+## 6. Atualizar o `Main`
 
 Depois de todos os testes passarem, complete o `Main` para:
 
