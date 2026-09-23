@@ -1,7 +1,7 @@
 # ADT Tree — Parte 2
 
 Nesta atividade será revista a especificação do **ADT Tree** desenvolvida na aula anterior. A interface `Position<E>` será integrada no contrato e será completada uma implementação ligada da árvore. O sistema de ficheiros da Parte 1 será reutilizado para planear e executar testes unitários.
-
+>Esta atividade deverá ser realizada sem qualquer utilização de ferramentas de IA generativa.
 ## Objetivos
 
 No final da atividade deverá ser capaz de:
