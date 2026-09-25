@@ -10,7 +10,6 @@ import pt.unips.estsetubal.tapoo.adt.Tree;
 import pt.unips.estsetubal.tapoo.adt.TreeImpl;
 import pt.unips.estsetubal.tapoo.model.FileSystemItem;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -102,6 +101,14 @@ class TreeImplTest {
         assertTrue(tree.isInternal(documents));
         assertTrue(tree.isExternal(notesTxt));
         assertTrue(tree.isExternal(holidaysJpg));
+    }
+
+    @Disabled("Completar depois de implementar positions")
+    @Test
+    void positionsAreReturnedInPreOrder() {
+        assertIterableEquals(
+                List.of(computer, documents, classesPdf, notesTxt, images, holidaysJpg),
+                tree.positions());
     }
 
 
