@@ -85,7 +85,7 @@ A implementação deve garantir que:
 O método começa apenas com o cast:
 
 ```java
-private TreeNode checkPosition(Position<E> position) {
+private TreeNode checkPosition(Position<E> position) throws InvalidPositionException {
     return (TreeNode) position;
 }
 ```
