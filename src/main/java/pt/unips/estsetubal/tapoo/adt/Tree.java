@@ -117,7 +117,7 @@ public interface Tree<E> {
             throws InvalidPositionException, BoundaryViolationException;
 
     /**
-     * substitui o elemento armazenado na posição indicada.
+     * Substitui o elemento armazenado na posição indicada.
      *
      * @param position posição cujo elemento será substituído
      * @param element novo elemento a armazenar
@@ -127,12 +127,14 @@ public interface Tree<E> {
     E replace(Position<E> position, E element) throws InvalidPositionException;
 
     /**
-     * Remove a subárvore cuja raiz é position e devolve o elemento aí armazenado.
-     * Todas as posições dessa subárvore são removidas.
+     * Remove o nó folha indicado e devolve o elemento nele armazenado.
+     * A posição removida deixa de ser válida.
      *
-     * @param position raiz da subárvore a remover
+     * @param position posição do nó folha a remover
      * @return elemento armazenado na posição removida
      * @throws InvalidPositionException se {@code position} não for uma posição válida
+     * @throws IllegalStateException se {@code position} tiver filhos
      */
-    E remove(Position<E> position) throws InvalidPositionException;
+    E remove(Position<E> position)
+            throws InvalidPositionException, IllegalStateException;
 }

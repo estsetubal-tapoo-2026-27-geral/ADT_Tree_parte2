@@ -29,6 +29,6 @@ public class Main {
         }
 
         // TODO A2.2: depois de completar a implementação, demonstrar
-        // size(), replace() e remove().
+        // size(), replace() e remove() de um nó folha.
     }
 }

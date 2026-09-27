@@ -130,9 +130,11 @@ public class TreeImpl<E> implements Tree<E> {
     }
 
     @Override
-    public E remove(Position<E> position) throws InvalidPositionException {
-        // TODO A2.2: remover a ligação ao pai (ou a raiz), invalidar toda a
-        // subárvore removida e devolver o elemento da posição recebida.
+    public E remove(Position<E> position)
+            throws InvalidPositionException, IllegalStateException {
+        // TODO A2.2: validar a posição; rejeitar nós com filhos antes de alterar
+        // a árvore; desligar a folha do pai (ou esvaziar a árvore se for a
+        // raiz isolada); invalidar a posição; devolver o elemento removido.
         throw new UnsupportedOperationException("Método remove por implementar");
     }
 

@@ -54,7 +54,7 @@ Observe `Tree.java` e identifique:
 - a operação que permite obter o elemento armazenado;
 - as exceções previstas;
 - a política de criação da raiz;
-- a política de remoção: neste projeto, `remove` elimina uma subárvore.
+- a política de remoção: neste projeto, `remove` elimina apenas nós folha; uma posição interna válida provoca `IllegalStateException` sem alterar a árvore.
 
 Compare este contrato com a proposta elaborada pelo grupo na Parte 1.
 
@@ -157,18 +157,22 @@ Em `TreeImpl.java`, implemente os métodos pela ordem seguinte:
 
 Depois de completar cada método:
 
-1. retire o `@Disabled` dos testes correspondentes;
+1. retire o `@Disabled` dos testes correspondentes (incluindo os casos de remoção de folha e de nó interno);
 2. execute todos os testes;
 3. confirme que as invariantes continuam a ser respeitadas.
 
 ### Remoção
 
-Neste projeto, `remove(position)` remove a subárvore cuja raiz é a posição recebida. A implementação deve:
+Neste projeto, `remove(position)` remove apenas um nó folha. A implementação deve:
 
-- desligar o nó do respetivo pai ou esvaziar a árvore, caso seja a raiz;
-- invalidar o nó e todos os descendentes removidos;
-- devolver o elemento que estava na posição recebida;
-- garantir que o novo resultado de `size()` está correto.
+- validar a posição com `checkPosition`; uma posição inválida provoca `InvalidPositionException`;
+- rejeitar uma posição com filhos através de `IllegalStateException`, antes de alterar a árvore;
+- desligar a folha do respetivo pai ou esvaziar a árvore se for a raiz isolada;
+- invalidar apenas a posição removida (`valid = false`);
+- devolver o elemento anteriormente armazenado nessa posição;
+- garantir que `size()` reflete o novo número de posições.
+
+Uma tentativa de remover um nó interno deve conservar a raiz, os filhos, as posições e o tamanho. A raiz de uma árvore não vazia só pode ser removida quando não tem filhos.
 
 ## 5. Completar cinco testes
 
@@ -179,8 +183,8 @@ completar. Complete apenas os cinco métodos assinalados com `TODO A2.2`:
    posição específica;
 2. `replaceChangesElementAndReturnsPreviousElement` — substituição do elemento
    e verificação do valor devolvido;
-3. `removingRootEmptiesTreeAndInvalidatesAllPositions` — remoção da raiz segundo
-   a política de remoção de uma subárvore;
+3. `removingOnlyRootEmptiesTreeAndInvalidatesPosition` — remoção da raiz
+   quando esta é o único nó da árvore;
 4. `operationWithRemovedPositionThrowsInvalidPositionException` — utilização
    de uma posição depois de removida;
 5. `insertWithInvalidOrderThrowsBoundaryViolationException` — inserção com um
@@ -200,7 +204,7 @@ Depois de todos os testes passarem, complete o `Main` para:
 
 1. mostrar `size()`;
 2. substituir um elemento;
-3. remover uma subárvore;
+3. remover uma folha;
 4. apresentar novamente a árvore e o percurso.
 
 ## Resultado esperado
@@ -221,5 +225,6 @@ A atividade fica concluída quando:
 - o projeto compila e todos os testes passam;
 - não são expostos objetos `TreeNode` na interface pública;
 - as operações rejeitam posições inválidas;
+- `remove` rejeita nós internos sem alterar a árvore;
 - tamanho, relações e percursos permanecem coerentes após alterações;
 - o estudante consegue justificar a necessidade de `Position<E>` e as decisões da remoção.
