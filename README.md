@@ -222,4 +222,4 @@ A atividade fica concluída quando:
 - não são expostos objetos `TreeNode` na interface pública;
 - as operações rejeitam posições inválidas;
 - tamanho, relações e percursos permanecem coerentes após alterações;
-- o grupo consegue justificar a necessidade de `Position<E>` e as decisões da remoção.
+- o estudante consegue justificar a necessidade de `Position<E>` e as decisões da remoção.
