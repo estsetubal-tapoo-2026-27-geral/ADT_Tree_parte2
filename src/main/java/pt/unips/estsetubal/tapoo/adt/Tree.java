@@ -117,7 +117,7 @@ public interface Tree<E> {
             throws InvalidPositionException, BoundaryViolationException;
 
     /**
-     * insere o elemento armazenado na posição indicada.
+     * substitui o elemento armazenado na posição indicada.
      *
      * @param position posição cujo elemento será substituído
      * @param element novo elemento a armazenar
@@ -128,7 +128,7 @@ public interface Tree<E> {
 
     /**
      * Remove a subárvore cuja raiz é position e devolve o elemento aí armazenado.
-     * Todas as posições dessa subárvore ficam inválidas.
+     * Todas as posições dessa subárvore são removidas.
      *
      * @param position raiz da subárvore a remover
      * @return elemento armazenado na posição removida
