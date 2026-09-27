@@ -1,7 +1,7 @@
 # ADT Tree — Parte 2
 
 Nesta atividade será revista a especificação do **ADT Tree** desenvolvida na aula anterior. A interface `Position<E>` será integrada no contrato e será completada uma implementação ligada da árvore. O sistema de ficheiros da Parte 1 será reutilizado para planear e executar testes unitários.
->Esta atividade deverá ser realizada sem qualquer utilização de ferramentas de IA generativa.
+> Esta atividade deverá ser realizada sem qualquer utilização de ferramentas de IA generativa.
 ## Objetivos
 
 No final da atividade deverá ser capaz de:
@@ -172,8 +172,8 @@ Neste projeto, `remove(position)` remove a subárvore cuja raiz é a posição r
 
 ## 5. Completar cinco testes
 
-A classe `TreeImplTest` fornece os restantes testes já implementados. Complete
-apenas os cinco métodos assinalados com `TODO A2.2`:
+A classe `TreeImplTest` fornece métodos de teste já completos e métodos a
+completar. Complete apenas os cinco métodos assinalados com `TODO A2.2`:
 
 1. `insertWithOrderAddsChildAtSpecifiedPosition` — inserção de um filho numa
    posição específica;
@@ -211,7 +211,7 @@ Depois de todos os testes passarem, complete o `Main` para:
 | `Tree.java` | contrato do ADT com posições e exceções documentadas |
 | `TreeImpl.java` | implementação completa e coerente |
 | `FileSystemItem.java` | modelo de pastas e ficheiros |
-| `TreeImplTest.java` | testes normais, limite, inválidos e estruturais |
+| `TreeImplTest.java` | testes de casos normais, de limite, de entradas inválidas e estruturais |
 | `Main.java` | demonstração aplicada ao sistema de ficheiros |
 
 ## Critérios de conclusão
