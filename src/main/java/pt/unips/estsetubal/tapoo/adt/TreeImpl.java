@@ -204,11 +204,23 @@ public class TreeImpl<E> implements Tree<E> {
 
     /** Nó privado da implementação ligada. */
     private class TreeNode implements Position<E> {
+        // Referência para o elemento armazenado nesta posição.
         private E element;
+
+        // Referência para o nó pai; é null na raiz.
         private TreeNode parent;
+
+        // Referências para os nós filhos, pela ordem em que aparecem na árvore.
         private final List<TreeNode> children;
+
+        // Referência para a instância da árvore que criou este nó.
+        // Permite rejeitar a sua utilização noutra árvore.
         private final TreeImpl<E> owner;
+
+        // Indica se o nó ainda é uma posição válida da árvore.
+        // Passa a false quando o nó é removido.
         private boolean valid;
+
 
         TreeNode(E element, TreeNode parent) {
             this.element = element;
