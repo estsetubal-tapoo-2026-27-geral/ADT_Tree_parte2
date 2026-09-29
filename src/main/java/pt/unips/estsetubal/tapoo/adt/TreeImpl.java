@@ -22,8 +22,11 @@ public class TreeImpl<E> implements Tree<E> {
 
     @Override
     public int size() {
-        // TODO A2.2: calcular o número de posições válidas da árvore.
-        throw new UnsupportedOperationException("Método size por implementar");
+        int count = 0;
+        for (Position<E> ignored : positions()) {
+            count++;
+        }
+        return count;
     }
 
     @Override
@@ -130,18 +133,27 @@ public class TreeImpl<E> implements Tree<E> {
     }
 
     @Override
-    public E remove(Position<E> position)
-            throws InvalidPositionException, IllegalStateException {
-        // TODO A2.2: validar a posição; rejeitar nós com filhos antes de alterar
-        // a árvore; desligar a folha do pai (ou esvaziar a árvore se for a
-        // raiz isolada); invalidar a posição; devolver o elemento removido.
+    public E remove(Position<E> position) throws InvalidPositionException {
+        // TODO A2.2: validar a posição e rejeitar um nó com filhos.
+        // Desligar a folha do pai (ou esvaziar a raiz), invalidá-la e
+        // devolver o elemento anteriormente armazenado.
         throw new UnsupportedOperationException("Método remove por implementar");
     }
 
     @Override
     public Iterable<Position<E>> positions() {
-        // TODO A2.2: devolver as posições em pré-ordem.
-        throw new UnsupportedOperationException("Método positions por implementar");
+        List<Position<E>> result = new ArrayList<>();
+        if (root == null) return result;
+        java.util.Deque<TreeNode> pending = new java.util.ArrayDeque<>();
+        pending.push(root);
+        while (!pending.isEmpty()) {
+            TreeNode node = pending.pop();
+            result.add(node);
+            for (int i = node.children.size() - 1; i >= 0; i--) {
+                pending.push(node.children.get(i));
+            }
+        }
+        return result;
     }
 
     @Override
@@ -195,7 +207,6 @@ public class TreeImpl<E> implements Tree<E> {
         private E element;
         private TreeNode parent;
         private final List<TreeNode> children;
-        // atributes to validate position
         private final TreeImpl<E> owner;
         private boolean valid;
 

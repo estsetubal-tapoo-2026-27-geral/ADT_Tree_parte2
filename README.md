@@ -54,11 +54,45 @@ Observe `Tree.java` e identifique:
 - a operação que permite obter o elemento armazenado;
 - as exceções previstas;
 - a política de criação da raiz;
-- a política de remoção: neste projeto, `remove` elimina apenas nós folha; uma posição interna válida provoca `IllegalStateException` sem alterar a árvore.
+- a política de remoção: neste projeto, `remove` aceita apenas folhas.
 
 Compare este contrato com a proposta elaborada pelo grupo na Parte 1.
 
 ## 2. Analisar `Position<E>` e `TreeImpl<E>`
+
+### Como é representada a árvore
+
+`TreeImpl<E>` guarda uma referência `root` para a raiz. A sua classe interna
+privada `TreeNode` representa cada nó e implementa `Position<E>`. Assim, quem
+utiliza a árvore recebe uma `Position<E>`, mas não acede diretamente aos
+detalhes do nó. Cada `TreeNode` contém:
+
+| Atributo | Papel na estrutura |
+|---|---|
+| `element` | Referência para o elemento armazenado no nó. |
+| `parent` | Referência para o nó pai; na raiz é `null`. |
+| `children` | Lista de referências para os filhos, pela ordem de inserção. |
+| `owner` | Referência para a instância de `TreeImpl<E>` que criou o nó. |
+| `valid` | Indica se a posição ainda pertence à árvore (`true`) ou se foi removida (`false`). |
+
+![Representação ligada de uma árvore com os atributos element, parent, children, owner e valid de cada nó](images/ead_TREE2.png)
+
+Na figura, todos os nós apontam para a mesma instância de `TreeImpl<E>` em
+`owner`, e as posições representadas ainda são válidas (`valid == true`).
+
+O construtor do nó associa `owner` à árvore que o criou (`TreeImpl.this`) e
+inicia `valid` com `true`. Estes dois atributos apoiam a validação das
+posições: um nó criado por **outra instância** de `TreeImpl` não pode ser usado
+nesta árvore, mesmo sendo um `TreeNode`; um nó removido deixa de poder ser usado,
+mesmo que o cliente ainda conserve a sua referência. A comparação entre a
+árvore atual e `owner` é uma comparação de **identidade** (`==`).
+
+Não basta verificar `parent == null` para decidir se uma posição é válida:
+a raiz legítima também não tem pai. Além disso, desligar um nó não elimina
+automaticamente as referências para ele que o cliente possa conservar. Por
+isso, a remoção de uma folha deve marcar `valid` como `false` e desligá-la da
+estrutura. Os testes da secção seguinte permitem descobrir, passo a passo,
+como utilizar estes atributos em `checkPosition`, sem fornecer já a solução.
 
 Em `TreeImpl<E>`, identifique:
 
@@ -77,8 +111,9 @@ A implementação deve garantir que:
 - a raiz tem `parent == null`;
 - cada nó não raiz tem exatamente um pai;
 - cada filho referencia o pai cuja lista o contém;
+- cada nó da árvore tem `owner` igual à instância atual e `valid == true`;
 - uma posição removida deixa de poder ser utilizada;
-- `size()` coincide com o número de posições válidas.
+- `size()` coincide com o número de posições válidas (método já fornecido).
 
 ## 3. Construir `checkPosition` por experiência e erro
 
@@ -130,7 +165,6 @@ Ative `positionFromAnotherTreeIsRejected`. São agora construídas duas árvores
 3. O que aconteceria ao executar
    `tree.insert(otherRoot, file("intruso.txt"))`?
 4. Como pode um nó registar qual foi a instância de `TreeImpl` que o criou?
-**Nota:** Reveja os atributos da classe TreeNode e o construtor de `TreeNode`
 5. Como se compara a identidade de duas árvores?
 
 Acrescente a validação descoberta e confirme que os três testes passam.
@@ -152,11 +186,13 @@ responsabilidades.
 Em `TreeImpl.java`, implemente os métodos pela ordem seguinte:
 
 1. `isRoot`, `isExternal` e `isInternal`;
-2. `remove`.
+2. `remove` (apenas nós folha).
+
+`size()` e `positions()` já estão implementados e não são tarefas desta atividade.
 
 Depois de completar cada método:
 
-1. retire o `@Disabled` dos testes correspondentes (incluindo os casos de remoção de folha e de nó interno);
+1. retire o `@Disabled` dos testes correspondentes;
 2. execute todos os testes;
 3. confirme que as invariantes continuam a ser respeitadas.
 
@@ -164,14 +200,11 @@ Depois de completar cada método:
 
 Neste projeto, `remove(position)` remove apenas um nó folha. A implementação deve:
 
-- validar a posição com `checkPosition`; uma posição inválida provoca `InvalidPositionException`;
-- rejeitar uma posição com filhos através de `IllegalStateException`, antes de alterar a árvore;
-- desligar a folha do respetivo pai ou esvaziar a árvore se for a raiz isolada;
-- invalidar apenas a posição removida (`valid = false`);
-- devolver o elemento anteriormente armazenado nessa posição;
-- garantir que `size()` reflete o novo número de posições.
-
-Uma tentativa de remover um nó interno deve conservar a raiz, os filhos, as posições e o tamanho. A raiz de uma árvore não vazia só pode ser removida quando não tem filhos.
+- rejeitar nós com filhos com `IllegalStateException`, sem alterar a árvore;
+- desligar a folha do respetivo pai ou esvaziar a árvore, caso seja a única posição;
+- invalidar a posição removida;
+- devolver o elemento que estava na posição recebida;
+- garantir que o novo resultado de `size()` está correto.
 
 ## 5. Completar cinco testes
 
@@ -182,8 +215,8 @@ completar. Complete apenas os cinco métodos assinalados com `TODO A2.2`:
    posição específica;
 2. `replaceChangesElementAndReturnsPreviousElement` — substituição do elemento
    e verificação do valor devolvido;
-3. `removingOnlyRootEmptiesTreeAndInvalidatesPosition` — remoção da raiz
-   quando esta é o único nó da árvore;
+3. `removingSoleRootEmptiesTreeAndInvalidatesPosition` — remoção da raiz
+   quando esta é a única posição;
 4. `operationWithRemovedPositionThrowsInvalidPositionException` — utilização
    de uma posição depois de removida;
 5. `insertWithInvalidOrderThrowsBoundaryViolationException` — inserção com um
@@ -201,9 +234,10 @@ Em cada teste:
 
 Depois de todos os testes passarem, complete o `Main` para:
 
-1. substituir um elemento;
-2. remover uma folha;
-3. apresentar novamente a árvore e o percurso.
+1. mostrar `size()`;
+2. substituir um elemento;
+3. remover um ficheiro (folha);
+4. apresentar novamente a árvore e o percurso.
 
 ## Resultado esperado
 
@@ -223,6 +257,6 @@ A atividade fica concluída quando:
 - o projeto compila e todos os testes passam;
 - não são expostos objetos `TreeNode` na interface pública;
 - as operações rejeitam posições inválidas;
-- `remove` rejeita nós internos sem alterar a árvore;
 - tamanho, relações e percursos permanecem coerentes após alterações;
+- a remoção de um nó interno falha sem modificar a árvore;
 - o estudante consegue justificar a necessidade de `Position<E>` e as decisões da remoção.

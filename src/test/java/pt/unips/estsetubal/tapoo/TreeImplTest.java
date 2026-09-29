@@ -81,6 +81,12 @@ class TreeImplTest {
                 () -> tree.children(otherRoot));
     }
 
+
+    @Test
+    void sizeMatchesNumberOfNodes() {
+        assertEquals(6, tree.size());
+    }
+
     @Disabled("Completar depois de implementar isRoot")
     @Test
     void computerIsRoot() {
@@ -96,32 +102,31 @@ class TreeImplTest {
         assertTrue(tree.isExternal(holidaysJpg));
     }
 
+    @Test
+    void positionsAreReturnedInPreOrder() {
+        assertIterableEquals(
+                List.of(computer, documents, classesPdf, notesTxt, images, holidaysJpg),
+                tree.positions());
+    }
 
 
 
     @Disabled("Completar depois de implementar remove")
     @Test
-    void removingLeafInvalidatesOnlyThatPosition() {
+    void removingLeafInvalidatesItsPositionAndUpdatesSize() {
         assertEquals("aulas.pdf", tree.remove(classesPdf).getName());
         assertThrows(InvalidPositionException.class, classesPdf::element);
+        assertEquals(5, tree.size());
         assertIterableEquals(List.of(notesTxt), tree.children(documents));
-        assertSame(documents, tree.parent(notesTxt));
     }
 
     @Disabled("Completar depois de implementar remove")
     @Test
-    void removingInternalNodeThrowsAndPreservesTree() {
+    void removingInternalNodeIsRejectedWithoutChanges() {
         assertThrows(IllegalStateException.class, () -> tree.remove(documents));
-        assertIterableEquals(List.of(classesPdf, notesTxt), tree.children(documents));
-        assertSame(computer, tree.root());
-        assertSame(documents, tree.parent(classesPdf));
-    }
-
-    @Disabled("Completar depois de implementar remove")
-    @Test
-    void removingRootWithChildrenThrowsAndPreservesTree() {
-        assertThrows(IllegalStateException.class, () -> tree.remove(computer));
-        assertSame(computer, tree.root());
+        assertEquals(6, tree.size());
+        assertSame(computer, tree.parent(documents));
+        assertEquals("Documentos", documents.element().getName());
     }
 
     // TODO A2.2: complete os cinco testes seguintes e retire @Disabled.
@@ -142,16 +147,16 @@ class TreeImplTest {
 
     @Disabled("TODO A2.2: completar o teste de remoção da raiz")
     @Test
-    void removingOnlyRootEmptiesTreeAndInvalidatesPosition() {
-        // TODO A2.2: criar uma nova árvore só com a raiz, removê-la,
-        // verificar isEmpty(), root() e a invalidação da posição.
+    void removingSoleRootEmptiesTreeAndInvalidatesPosition() {
+        // TODO A2.2: criar uma árvore com apenas a raiz, removê-la e
+        // verificar que está vazia e que a antiga posição é inválida.
     }
 
     @Disabled("TODO A2.2: completar o teste de utilização de posição removida")
     @Test
     void operationWithRemovedPositionThrowsInvalidPositionException() {
-        // TODO A2.2: remover uma folha e tentar usar a sua posição numa
-        // operação da árvore; verificar InvalidPositionException.
+        // TODO A2.2: remover uma posição e tentar utilizá-la numa operação
+        // da árvore.
     }
 
     @Disabled("TODO A2.2: completar o teste de índice inválido")
