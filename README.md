@@ -151,9 +151,7 @@ responsabilidades.
 Em `TreeImpl.java`, implemente os métodos pela ordem seguinte:
 
 1. `isRoot`, `isExternal` e `isInternal`;
-2. `size`;
-3. `positions`;
-4. `remove`.
+2. `remove`.
 
 Depois de completar cada método:
 
@@ -202,10 +200,9 @@ Em cada teste:
 
 Depois de todos os testes passarem, complete o `Main` para:
 
-1. mostrar `size()`;
-2. substituir um elemento;
-3. remover uma folha;
-4. apresentar novamente a árvore e o percurso.
+1. substituir um elemento;
+2. remover uma folha;
+3. apresentar novamente a árvore e o percurso.
 
 ## Resultado esperado
 

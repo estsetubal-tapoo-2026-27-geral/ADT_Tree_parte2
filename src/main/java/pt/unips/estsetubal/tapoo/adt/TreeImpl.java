@@ -195,6 +195,7 @@ public class TreeImpl<E> implements Tree<E> {
         private E element;
         private TreeNode parent;
         private final List<TreeNode> children;
+        // atributes to validate position
         private final TreeImpl<E> owner;
         private boolean valid;
 
