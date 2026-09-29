@@ -130,6 +130,7 @@ Ative `positionFromAnotherTreeIsRejected`. São agora construídas duas árvores
 3. O que aconteceria ao executar
    `tree.insert(otherRoot, file("intruso.txt"))`?
 4. Como pode um nó registar qual foi a instância de `TreeImpl` que o criou?
+**Nota:** Reveja os atributos da classe TreeNode e o construtor de `TreeNode`
 5. Como se compara a identidade de duas árvores?
 
 Acrescente a validação descoberta e confirme que os três testes passam.
