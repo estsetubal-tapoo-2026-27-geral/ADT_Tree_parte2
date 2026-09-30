@@ -22,11 +22,8 @@ public class TreeImpl<E> implements Tree<E> {
 
     @Override
     public int size() {
-        int count = 0;
-        for (Position<E> ignored : positions()) {
-            count++;
-        }
-        return count;
+        throw new UnsupportedOperationException("Método isSize a implementar na parte 3");
+
     }
 
     @Override
@@ -70,7 +67,9 @@ public class TreeImpl<E> implements Tree<E> {
     @Override
     public boolean isExternal(Position<E> position) throws InvalidPositionException {
         // TODO A2.2: um nó externo não tem filhos.
-        throw new UnsupportedOperationException("Método isExternal por implementar");
+        throw new UnsupportedOperationException("Método isRoot por implementar");
+
+
     }
 
     @Override
@@ -133,15 +132,20 @@ public class TreeImpl<E> implements Tree<E> {
     }
 
     @Override
-    public E remove(Position<E> position) throws InvalidPositionException {
+    public E remove(Position<E> position)
+            throws InvalidPositionException,IllegalStateException {
         // TODO A2.2: validar a posição e rejeitar um nó com filhos.
         // Desligar a folha do pai (ou esvaziar a raiz), invalidá-la e
         // devolver o elemento anteriormente armazenado.
+
         throw new UnsupportedOperationException("Método remove por implementar");
-    }
+
+
+      }
 
     @Override
     public Iterable<Position<E>> positions() {
+        // Percorre as posições por niveis (em largura)
         List<Position<E>> result = new ArrayList<>();
         if (root == null) return result;
         java.util.Deque<TreeNode> pending = new java.util.ArrayDeque<>();
@@ -179,7 +183,7 @@ public class TreeImpl<E> implements Tree<E> {
      */
     private TreeNode checkPosition(Position<E> position)
             throws InvalidPositionException {
-        return (TreeNode) position;
+       return (TreeNode) position;
     }
 
     @Override
@@ -225,7 +229,7 @@ public class TreeImpl<E> implements Tree<E> {
         TreeNode(E element, TreeNode parent) {
             this.element = element;
             this.parent = parent;
-            this.children = new ArrayList<>();
+            this.children = new ArrayList<>(); //lista vazia
             this.owner = TreeImpl.this;
             this.valid = true;
         }

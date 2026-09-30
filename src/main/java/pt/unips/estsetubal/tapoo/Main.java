@@ -19,7 +19,6 @@ public class Main {
         Position<FileSystemItem> classesPdf = tree.insert(documents, file("aulas.pdf"));
         tree.insert(documents, file("notas.txt"));
         tree.insert(images, file("ferias.jpg"));
-
         System.out.println(tree);
         System.out.println("Pai de aulas.pdf: " + tree.parent(classesPdf).element());
 
@@ -29,6 +28,6 @@ public class Main {
         }
 
         // TODO A2.2: depois de completar a implementação, demonstrar
-        // size(), replace() e remove() de um nó folha.
+        // replace() e remove() de um nó folha.
     }
 }

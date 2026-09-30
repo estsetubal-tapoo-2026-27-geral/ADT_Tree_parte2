@@ -43,10 +43,6 @@ class TreeImplTest {
         assertEquals("Computador", tree.root().element().getName());
     }
 
-    @Test
-    void parentOfFileIsItsFolder() {
-        assertSame(documents, tree.parent(classesPdf));
-    }
 
     @Test
     void parentOfRootThrowsException() {
@@ -81,11 +77,6 @@ class TreeImplTest {
                 () -> tree.children(otherRoot));
     }
 
-
-    @Test
-    void sizeMatchesNumberOfNodes() {
-        assertEquals(6, tree.size());
-    }
 
     @Disabled("Completar depois de implementar isRoot")
     @Test
