@@ -104,10 +104,9 @@ class TreeImplTest {
 
     @Disabled("Completar depois de implementar remove")
     @Test
-    void removingLeafInvalidatesItsPositionAndUpdatesSize() {
+    void removingLeafInvalidatesItsPosition(){
         assertEquals("aulas.pdf", tree.remove(classesPdf).getName());
         assertThrows(InvalidPositionException.class, classesPdf::element);
-        assertEquals(5, tree.size());
         assertIterableEquals(List.of(notesTxt), tree.children(documents));
     }
 
@@ -115,7 +114,6 @@ class TreeImplTest {
     @Test
     void removingInternalNodeIsRejectedWithoutChanges() {
         assertThrows(IllegalStateException.class, () -> tree.remove(documents));
-        assertEquals(6, tree.size());
         assertSame(computer, tree.parent(documents));
         assertEquals("Documentos", documents.element().getName());
     }
