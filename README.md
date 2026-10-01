@@ -113,8 +113,6 @@ A implementação deve garantir que:
 - cada filho referencia o pai cuja lista o contém;
 - cada nó da árvore tem `owner` igual à instância atual e `valid == true`;
 - uma posição removida deixa de poder ser utilizada;
-- `size()` coincide com o número de posições válidas (método já fornecido).
-
 ## 3. Construir `checkPosition` por experiência e erro
 
 O método começa apenas com o cast:
@@ -188,8 +186,6 @@ Em `TreeImpl.java`, implemente os métodos pela ordem seguinte:
 1. `isRoot`, `isExternal` e `isInternal`;
 2. `remove` (apenas nós folha).
 
-`size()` e `positions()` já estão implementados e não são tarefas desta atividade.
-
 Depois de completar cada método:
 
 1. retire o `@Disabled` dos testes correspondentes;
@@ -204,7 +200,6 @@ Neste projeto, `remove(position)` remove apenas um nó folha. A implementação 
 - desligar a folha do respetivo pai ou esvaziar a árvore, caso seja a única posição;
 - invalidar a posição removida;
 - devolver o elemento que estava na posição recebida;
-- garantir que o novo resultado de `size()` está correto.
 
 ## 5. Completar cinco testes
 
@@ -234,10 +229,9 @@ Em cada teste:
 
 Depois de todos os testes passarem, complete o `Main` para:
 
-1. mostrar `size()`;
-2. substituir um elemento;
-3. remover um ficheiro (folha);
-4. apresentar novamente a árvore e o percurso.
+1. substituir um elemento;
+2. remover um ficheiro (folha);
+3. apresentar novamente a árvore e o percurso.
 
 ## Resultado esperado
 
