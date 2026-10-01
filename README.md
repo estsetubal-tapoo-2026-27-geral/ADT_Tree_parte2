@@ -113,6 +113,7 @@ A implementação deve garantir que:
 - cada filho referencia o pai cuja lista o contém;
 - cada nó da árvore tem `owner` igual à instância atual e `valid == true`;
 - uma posição removida deixa de poder ser utilizada;
+- 
 ## 3. Construir `checkPosition` por experiência e erro
 
 O método começa apenas com o cast:

@@ -22,7 +22,7 @@ public class TreeImpl<E> implements Tree<E> {
 
     @Override
     public int size() {
-        throw new UnsupportedOperationException("Método isSize a implementar na parte 3");
+        throw new UnsupportedOperationException("Método size() a implementar na parte 3");
 
     }
 
@@ -67,7 +67,7 @@ public class TreeImpl<E> implements Tree<E> {
     @Override
     public boolean isExternal(Position<E> position) throws InvalidPositionException {
         // TODO A2.2: um nó externo não tem filhos.
-        throw new UnsupportedOperationException("Método isRoot por implementar");
+        throw new UnsupportedOperationException("Método isExternal por implementar");
 
 
     }
@@ -145,18 +145,22 @@ public class TreeImpl<E> implements Tree<E> {
 
     @Override
     public Iterable<Position<E>> positions() {
-        // Percorre as posições por niveis (em largura)
+        // Percorre as posições por níveis (em largura).
         List<Position<E>> result = new ArrayList<>();
         if (root == null) return result;
+
         java.util.Deque<TreeNode> pending = new java.util.ArrayDeque<>();
-        pending.push(root);
+        pending.addLast(root);
+
         while (!pending.isEmpty()) {
-            TreeNode node = pending.pop();
+            TreeNode node = pending.removeFirst();
             result.add(node);
-            for (int i = node.children.size() - 1; i >= 0; i--) {
-                pending.push(node.children.get(i));
+
+            for (TreeNode child : node.children) {
+                pending.addLast(child);
             }
         }
+
         return result;
     }
 

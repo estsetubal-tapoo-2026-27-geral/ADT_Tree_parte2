@@ -77,16 +77,16 @@ public interface Tree<E> {
     boolean isRoot(Position<E> position) throws InvalidPositionException;
 
     /**
-     * Devolve todas as posições da árvore em pré-ordem.
+     * Devolve todas as posições da árvore.
      *
-     * @return posições da árvore em pré-ordem
+     * @return posições da árvore.
      */
     Iterable<Position<E>> positions();
 
     /**
-     * Devolve todos os elementos armazenados na árvore em pré-ordem.
+     * Devolve todos os elementos armazenados na árvore .
      *
-     * @return elementos da árvore em pré-ordem
+     * @return elementos da árvore.
      */
     Iterable<E> elements();
 

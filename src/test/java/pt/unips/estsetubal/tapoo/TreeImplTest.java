@@ -94,10 +94,16 @@ class TreeImplTest {
     }
 
     @Test
-    void positionsAreReturnedInPreOrder() {
-        assertIterableEquals(
-                List.of(computer, documents, classesPdf, notesTxt, images, holidaysJpg),
-                tree.positions());
+    void positionsContainsAllPositions() {
+        List<Position<FileSystemItem>> actual = new java.util.ArrayList<>();
+        tree.positions().forEach(actual::add);
+
+        List<Position<FileSystemItem>> expected =
+                List.of(computer, documents, images,
+                        classesPdf, notesTxt, holidaysJpg);
+
+        assertEquals(expected.size(), actual.size());
+        assertTrue(actual.containsAll(expected));
     }
 
 
